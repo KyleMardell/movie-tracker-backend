@@ -8,8 +8,12 @@ class MovieSerializer(serializers.ModelSerializer):
     def validate(self, data):
         user = self.context['request'].user
         tmdb_id = data.get('tmdb_id')
+        queryset = Movie.objects.filter(user=user, tmdb_id=tmdb_id)
 
-        if Movie.objects.filter(user=user, tmdb_id=tmdb_id).exists():
+        if self.instance:
+            queryset = queryset.exclude(pk=self.instance.pk)
+
+        if queryset.exists():
             raise serializers.ValidationError("You already added this movie.")
 
         return data

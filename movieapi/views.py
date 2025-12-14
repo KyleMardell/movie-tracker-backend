@@ -1,4 +1,4 @@
-from rest_framework import permissions, status
+from rest_framework import permissions, status, filters
 from rest_framework.generics import CreateAPIView, ListCreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -29,9 +29,16 @@ class RegisterUserView(CreateAPIView):
 
 
 class MovieListCreateView(ListCreateAPIView):
-    
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
+    ordering_fields = ['created_on', 'title']
+    ordering = ['-created_on']
+    search_fields = ['title']
 
     def get_queryset(self):
         queryset = Movie.objects.filter(user=self.request.user)
