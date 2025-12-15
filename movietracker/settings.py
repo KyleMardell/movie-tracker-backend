@@ -35,6 +35,10 @@ ALLOWED_HOSTS = ['movie-tracker-api.cap.kylemardell.me']
 
 CSRF_TRUSTED_ORIGINS = ['https://movie-tracker-api.cap.kylemardell.me']
 
+CORS_ALLOWED_ORIGINS = [
+    # change to front end app url "https://your-frontend-app.cap.kylemardell.me",
+]
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 
@@ -51,10 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    'corsheaders',
     'movieapi',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
