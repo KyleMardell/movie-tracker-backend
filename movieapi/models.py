@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+""" 
+    Movie Model
+    contains fields for user, title, tmdb id, image and watched status
+"""
 class Movie(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
