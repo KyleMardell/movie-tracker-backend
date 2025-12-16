@@ -8,6 +8,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, MovieSerializer
 
 
+"""
+Register user view
+Allows new users to create an account, 
+adding the user credentials to the database.
+Returns JWT tokens for auto log in upon sign up.
+"""
 class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -28,6 +34,12 @@ class RegisterUserView(CreateAPIView):
         )
 
 
+"""
+Movie list create view
+Lets users add new movies to their movies list
+Returns a list of the users saved movies
+Allows filtering by watched status and search by movie title
+"""
 class MovieListCreateView(ListCreateAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
@@ -53,7 +65,12 @@ class MovieListCreateView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
     
-    
+
+"""
+Delete movie view
+Lets users delete movies from their list
+User must be authenticated and the movie owner.
+"""
 class MovieDeleteView(DestroyAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
@@ -61,7 +78,12 @@ class MovieDeleteView(DestroyAPIView):
     def get_queryset(self):
         return Movie.objects.filter(user=self.request.user)
     
-    
+
+"""
+Movie toggle watched view
+Lets users toggle a movies watched status
+user must be authenticated and the movie owner
+"""
 class MovieToggleWatchedView(UpdateAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]

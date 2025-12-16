@@ -2,6 +2,9 @@ from rest_framework import serializers
 from movieapi.models import Movie
 from django.contrib.auth.models import User
 
+
+# Movie serializer
+# Serializes movie model fields, returns error for movie duplicates.
 class MovieSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     
@@ -25,7 +28,10 @@ class MovieSerializer(serializers.ModelSerializer):
             'image_path', 'watched', 'created_on',
         ]
         
-        
+
+# Register user serializer
+# creates a new user with serialized data, 
+# checks for duplicate usernames and empty passwords
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     

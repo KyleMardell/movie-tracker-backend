@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 """ 
     Movie Model
     contains fields for user, title, tmdb id, image and watched status
+    auto adds id and created on date
 """
 class Movie(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -15,6 +16,7 @@ class Movie(models.Model):
     
     class Meta:
         ordering = ['-created_on']
+        # constraints ensure a user cannot save duplicates of the same movie
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'tmdb_id'],

@@ -31,17 +31,16 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
+# Allowed hosts for VPS deployment
 ALLOWED_HOSTS = ['movie-tracker-api.cap.kylemardell.me']
-
 CSRF_TRUSTED_ORIGINS = ['https://movie-tracker-api.cap.kylemardell.me']
-
 CORS_ALLOWED_ORIGINS = [
     # change to front end app url "https://your-frontend-app.cap.kylemardell.me",
 ]
 
+# Static files for admin panel CSS when deployed
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Application definition
@@ -92,8 +91,7 @@ WSGI_APPLICATION = 'movietracker.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# Environment variables for database deployed on the VPS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -137,13 +135,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
 # REST FRAMEWORK
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -156,7 +148,6 @@ REST_FRAMEWORK = {
 }
 
 # JWT TOKEN DURATION
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
 }

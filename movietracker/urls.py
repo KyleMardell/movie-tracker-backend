@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+
+# Urls for admin panel, JWT token auth and include api urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     

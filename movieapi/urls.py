@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import RegisterUserView, MovieListCreateView, MovieDeleteView, MovieToggleWatchedView
 
+
+# Urls for user registration, movie list, create and delete, and toggle watched status
 urlpatterns = [
     path('register/', RegisterUserView.as_view(), name='register'),
     path('movies/', MovieListCreateView.as_view(), name='movie-list-create'),
