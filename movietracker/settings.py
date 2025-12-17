@@ -35,7 +35,8 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['movie-tracker-api.cap.kylemardell.me']
 CSRF_TRUSTED_ORIGINS = ['https://movie-tracker-api.cap.kylemardell.me']
 CORS_ALLOWED_ORIGINS = [
-    # change to front end app url "https://your-frontend-app.cap.kylemardell.me",
+    'http://localhost:3000', # Remove after development
+    'https://movie-tracker-frontend.cap.kylemardell.me',
 ]
 
 # Static files for admin panel CSS when deployed
