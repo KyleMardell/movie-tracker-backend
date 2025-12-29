@@ -91,9 +91,10 @@ class MovieToggleWatchedView(UpdateAPIView):
     def get_queryset(self):
         return Movie.objects.filter(user=self.request.user)
 
-    def get_object(self):
-        obj = super().get_object()
-        # toggle the watched status
-        obj.watched = not obj.watched
-        obj.save()
-        return obj
+    def update(self, request, *args, **kwargs):
+        movie = self.get_object()
+        movie.watched = not movie.watched
+        movie.save()
+
+        serializer = self.get_serializer(movie)
+        return Response(serializer.data, status=status.HTTP_200_OK)
