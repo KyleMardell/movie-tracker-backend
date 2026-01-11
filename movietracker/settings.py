@@ -35,7 +35,6 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['movie-tracker-api.cap.kylemardell.me']
 CSRF_TRUSTED_ORIGINS = ['https://movie-tracker-api.cap.kylemardell.me']
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
     'https://movie-tracker-frontend.cap.kylemardell.me',
     'https://movietracker.kylemardell.me/',
 ]
