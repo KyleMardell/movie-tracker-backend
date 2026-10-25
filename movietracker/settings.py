@@ -31,12 +31,17 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
+# CapRover terminates HTTPS and forwards the original scheme to Django.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 # Allowed hosts for VPS deployment
-ALLOWED_HOSTS = ['movie-tracker-api.cap.kylemardell.me']
-CSRF_TRUSTED_ORIGINS = ['https://movie-tracker-api.cap.kylemardell.me']
+ALLOWED_HOSTS = ['api.movietracker.kylemardell.me']
+CSRF_TRUSTED_ORIGINS = ['https://api.movietracker.kylemardell.me']
 CORS_ALLOWED_ORIGINS = [
-    'https://movie-tracker-frontend.cap.kylemardell.me',
-    'https://movietracker.kylemardell.me/',
+    'https://movietracker.kylemardell.me',
 ]
 
 # Static files for admin panel CSS when deployed
@@ -144,6 +149,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'auth_register': '5/hour',
+        'auth_login': '10/minute',
+        'auth_refresh': '30/minute',
+    },
+    # Assumes one trusted CapRover Nginx reverse proxy; keep the Django
+    # container inaccessible directly from the public internet.
+    'NUM_PROXIES': 1,
     'DEFAULT_PAGINATION_CLASS': None,
 }
 

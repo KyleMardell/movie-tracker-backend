@@ -18,6 +18,7 @@ class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = RegisterSerializer
+    throttle_scope = 'auth_register'
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

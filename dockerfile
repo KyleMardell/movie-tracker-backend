@@ -24,8 +24,12 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY . /app/
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Collect static files with a build-only key; production secrets are supplied at runtime.
+RUN DJANGO_SECRET_KEY=build-only-static-collection-key python manage.py collectstatic --noinput
+
+# Run the application as an unprivileged user.
+RUN addgroup --system django && adduser --system --ingroup django django
+USER django
 
 # Expose port 8000
 EXPOSE 8000
